@@ -23,8 +23,17 @@ def teleport():
 teleport()
 
 def on_mouse_down(pos):
-    
-
+    global satcount
+    global satellites
+    global connections
+    if satcount<totalsatcount:
+        if satellites[satcount].collidepoint(pos):
+            if satcount:
+                connections.append((satellites[satcount-1].pos,satellites[satcount].pos))
+            satcount+=1
+        else:
+            connections=[]
+            satcount = 0
 
 def draw():
     global totaltimer
@@ -33,11 +42,16 @@ def draw():
     for i in satellites:
         i.draw()
         screen.draw.text(str(count),(i.pos[0],i.pos[1]-40))
-        count+=1 
+        count+=1
+    for j in connections:
+        screen.draw.line(j[0],j[1],"Red") 
     if satcount < totalsatcount:
         totaltimer = time.time() - timing
         totaltimer = round(totaltimer,1)
         screen.draw.text(str(totaltimer),(50,75))
+    else:
+        screen.draw.text(str(totaltimer),(50,75))
+    
 def update():
     pass
 
