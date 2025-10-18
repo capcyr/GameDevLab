@@ -91,7 +91,7 @@ def correctanswer():
         gammeover()
 
 def on_mouse_down(pos):
-    if listing and not gameeover:
+    #if listing and not gameeover:
         counter =1
         for box in options:
             if box.collidepoint(pos):
@@ -106,5 +106,6 @@ reading()
 question = adding()
 clock.schedule_interval(countdown,1)
 pgzrun.go()
+
 
 
