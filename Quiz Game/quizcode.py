@@ -38,6 +38,11 @@ def draw():
     message = "welcome to the quiz app"
     screen.draw.textbox(message,marqueebox,color = "black")
     screen.draw.textbox(str(timee),timerbox,color = "black")
+    screen.draw.textbox(question[0].strip(),questionbox,color = "black")
+    q = 1
+    for i in options:
+        screen.draw.textbox(question[q].strip(),i, color = "black") 
+        q +=1
 #Function for marquee box
 def moving():
     marqueebox.x-=5
@@ -52,5 +57,54 @@ def countdown():
 def update():
     pass
     moving()
+#Reading the file
+def reading():
+    global totalquestioncount
+    global indexing
+    global listing 
+    openfile = open("question.txt","r")
+    for question in openfile:
+        listing.append(question)
+        totalquestioncount +=1
+    openfile.close()
+
+#Reading next question
+def adding():
+    global indexing
+    indexing +=1
+    return listing.pop(0).split(",")
+    
+def gammeover():
+    global question, timee, gameeover
+    gameeover = True
+    timee = 0
+    message = f"The quiz is over {score_1}"
+    question = [message,"-","-","-","-",5]
+
+def correctanswer():
+    global timee, question,score_1,listing
+    score_1+=1
+    if listing:
+        question = adding()
+        timee = 30
+    else:
+        gammeover()
+
+def on_mouse_down(pos):
+    if listing and not gameeover:
+        counter =1
+        for box in options:
+            if box.collidepoint(pos):
+
+                if counter == int(question[5]):
+                    correctanswer()
+                else:
+                    gammeover()
+            counter+=1 
+    
+reading()
+question = adding()
 clock.schedule_interval(countdown,1)
 pgzrun.go()
+
+
