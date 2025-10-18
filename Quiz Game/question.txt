@@ -1,15 +1,15 @@
-Which country has the highest life expectancy?, Hong Kong,Japan,Switzerland,Singapore,
-What is the most common surname in the United States?, Smith,Johnson,Williams,Brown
-Who was the Ancient Greek God of the Sun?, Apollo,Hera,Hermes,Dionysus
-How many minutes are in a full week?, 10080,9720,10200,9600
-Aureolin is a shade of what color?, Yellow,Blue,Red,Green
-How many faces does a Dodecahedron have?, 12,10,20,14
-What is the 4th letter of the Greek alphabet?, Delta,Gamma,Epsilon,Beta
-What company was initially known as "Blue Ribbon Sports"?, Nike,Adidas,Reebok,Puma
-What art form is described as "decorative handwriting or handwritten lettering"?, Calligraphy,Typography,Graffiti,Engraving
-What software company is headquartered in Redmond, Washington?, Microsoft,Apple,Oracle,IBM
-How many dots appear on a pair of dice?, 42,48,36,44
-What is acrophobia a fear of?, Heights,Flying,Water,Darkness
-December 26 is known by what names in Ireland?, Saint Stephen's Day,Boxing Day,Wren Day,Christmas Monday
-What is the world’s largest retailer?, Walmart,Amazon,Costco,Carrefour
-What is the name of the Chinese philosophical system that emphasizes harmony with nature?, Taoism,Confucianism,Legalism,Buddhism
+Which country has the highest life expectancy?,Japan,Hong Kong,Switzerland,Singapore,2
+What is the most common surname in the United States?,Williams,Johnson,Smith,Brown,3
+Who was the Ancient Greek God of the Sun?,Hera,Apollo,Hermes,Dionysus,2
+How many minutes are in a full week?,10080,9600,9720,10200,1
+Aureolin is a shade of what color?,Green,Yellow,Red,Blue,2
+How many faces does a Dodecahedron have?,14,12,20,10,2
+What is the 4th letter of the Greek alphabet?,Gamma,Beta,Delta,Epsilon,3
+What company was initially known as "Blue Ribbon Sports"?,Adidas,Nike,Puma,Reebok,2
+What art form is described as "decorative handwriting or handwritten lettering"?,Graffiti,Calligraphy,Engraving,Typography,2
+What software company is headquartered in Redmond Washington?,IBM,Microsoft,Apple,Oracle,2
+How many dots appear on a pair of dice?,44,42,36,48,2
+What is acrophobia a fear of?,Darkness,Flying,Heights,Water,3
+December 26 is known by what names in Ireland?,Wren Day,Saint Stephen's Day,Boxing Day,Christmas Monday,2
+What is the worlds largest retailer?,Amazon,Carrefour,Walmart,Costco,3
+What is the name of the Chinese philosophical system that emphasizes harmony with nature?,Taoism,Buddhism,Confucianism,Legalism,1
