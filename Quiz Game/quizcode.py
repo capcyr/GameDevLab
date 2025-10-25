@@ -10,7 +10,7 @@ option1 = Rect(0,300,350,180)
 option2 = Rect(370,300,350,180)
 option3 = Rect(0,500,350,180)
 option4 = Rect(370,500,350,180)
-skip = Rect(750,300,200,750)
+skip = Rect(750,300,150,400)
 #variables
 score_1 = 0
 timee = 30
@@ -39,6 +39,7 @@ def draw():
     screen.draw.textbox(message,marqueebox,color = "black")
     screen.draw.textbox(str(timee),timerbox,color = "black")
     screen.draw.textbox(question[0].strip(),questionbox,color = "black")
+    screen.draw.textbox("Skip",skip, color = "black",angle = -90)
     q = 1
     for i in options:
         screen.draw.textbox(question[q].strip(),i, color = "black") 
@@ -90,6 +91,15 @@ def correctanswer():
     else:
         gammeover()
 
+def skipping():
+    global question, timee
+    if listing and not gameeover:
+        question = adding()
+        timee = 30
+    else:
+        gammeover()
+
+
 def on_mouse_down(pos):
     #if listing and not gameeover:
         counter =1
@@ -101,11 +111,16 @@ def on_mouse_down(pos):
                 else:
                     gammeover()
             counter+=1 
+        if skip.collidepoint(pos):
+            skipping()
+
+
     
 reading()
 question = adding()
 clock.schedule_interval(countdown,1)
 pgzrun.go()
+
 
 
 
