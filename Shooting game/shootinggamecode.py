@@ -71,8 +71,3 @@ def update():
 
 pgzrun.go()
 
-
-
-
-
-pgzrun.go()
