@@ -31,11 +31,10 @@ def animaterocket():
     rocket.target = xpos,ypos
     target_angle = rocket.angle_to(rocket.target)
     target_angle+= 360*((rocket.angle-target_angle+180)//360)
-    animate(rocket,target_angle,duration =0.2,on_finished = rocketanimation,)
+    animate(rocket,angle = target_angle,duration =0.1,on_finished = rocketanimation,)
     
 def rocketanimation():
-    anim = animate(rocket,tween='accel_decel',pos=rocket.target,duration=rocket.distance_to(rocket.target)/200,on_finished=animaterocket,)
+    anim = animate(rocket,tween='accel_decel',pos=rocket.target,duration=rocket.distance_to(rocket.target)/800,on_finished=animaterocket,)
 animaterocket()
-
 
 pgzrun.go()
