@@ -9,7 +9,7 @@ gameover = False
 levels = 6
 beginlevel = 1
 currentlevel = []
-speed = 6
+speed = 12
 gamecomplete = False
 totalitems = ["labtop.png","mirror.png","plasticbag.jpg","pot.png"]
 targetitem = None
@@ -53,6 +53,8 @@ def falling(extra):
 #When actor reaches the bottom
 def failure(actor):
     global gameover
+    if gamecomplete:
+        return
     if not actor.active:
         return 
     if actor.image == targetitem:
@@ -83,12 +85,12 @@ def on_mouse_down(pos):
 
 #restartfunction
 def restart():
-    global gameover, gamecomplete, levels, currentlevel, targetitem
+    global gameover, gamecomplete, levels, currentlevel, targetitem,beginlevel
     for i in currentlevel:
         i.active = False 
     gamecomplete = False
     gameover = False 
-    beginlevel == 1
+    beginlevel = 1
     currentlevel = []
     targetitem = None
 
