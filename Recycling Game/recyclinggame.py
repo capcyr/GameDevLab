@@ -9,21 +9,27 @@ gameover = False
 levels = 6
 beginlevel = 1
 currentlevel = []
-speed = 5
-gamecomplete = True
-totalitems = ["labtop.png","mirror.png","plasticbag.png","pot.png"]
+speed = 6
+gamecomplete = False
+totalitems = ["labtop.png","mirror.png","plasticbag.jpg","pot.png"]
 targetitem = None
 
 def draw():
     screen.fill("white")
     if gameover:
         screen.fill("black")
-        screen.draw.text("GAME OVER",center = (500,320), fontsize = 130 , color = "red") 
+        screen.draw.text("GAME OVER",center = (500,320), fontsize = 130 , color = "red")
+        screen.draw.text("Restart",center = (500,500), fontsize = 130 , color = "red") 
     elif gamecomplete:
         screen.fill("green")
         screen.draw.text("GAME WON",center = (500,320), fontsize = 130 , color = "Blue")
-
-
+        screen.draw.text("Restart",center = (500,500), fontsize = 130 , color = "Blue")
+    else:
+        for i in currentlevel:
+            i.draw()
+        screen.draw.text(f"Level:{beginlevel}",topright = (970,20), fontsize = 80 , color = "Black")
+        if targetitem:
+            screen.draw.text(f"Click the {targetitem.split('.')[0].capitalize()}!",topleft = (20,20), fontsize = 40 , color = "Black")
 #function for falling items
 
 def falling(extra):
@@ -56,16 +62,41 @@ def failureagain():
     global gameover
     gameover = True
      
+#mouseclickevent
+def on_mouse_down(pos):
+    global currentlevel, beginlevel, gamecomplete,gameover
+    if gameover or gamecomplete:
+        restart()
+        return()
+    for i in currentlevel:
+        if i.collidepoint(pos):
+            if i.image == targetitem:
+                if beginlevel == levels:
+                    gamecomplete = True
+                else:
+                    beginlevel+=1
+                    for j in currentlevel:
+                        j.active = False 
+                    currentlevel = []
+            else:
+                failureagain() 
 
-
-
+#restartfunction
+def restart():
+    global gameover, gamecomplete, levels, currentlevel, targetitem
+    for i in currentlevel:
+        i.active = False 
+    gamecomplete = False
+    gameover = False 
+    beginlevel == 1
+    currentlevel = []
+    targetitem = None
 
 
 
 
 
 def update():
-    pass
     global currentlevel, beginlevel
     if gameover or gamecomplete:
         return
