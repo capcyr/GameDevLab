@@ -9,6 +9,7 @@ class circular:
         self.color = color
         self.position = position
         self.radius = radius
+        self.originalradius = radius
         self.width = width
         self.screen = screening
     def draw(self):
@@ -25,7 +26,12 @@ class circular:
     def colors(self):
         self.color = (random.randint(0,255),random.randint(0,255),random.randint(0,255))
         self.draw()
+    def reset(self):
+        self.radius = self.originalradius
 
+    def clicked(self,mousepos):
+        dx = 
+    
 
 
 
@@ -44,12 +50,14 @@ def reset():
     global circles
     screening.fill("Black")
     for c in circles:
+        c.reset()
         c.draw()
     pygame.display.update()
-
+clock = pygame.time.Clock()
     
 run = True
 while run:
+    clock.tick(60)
     pygame.display.update()
 #quit event
     for event in pygame.event.get():
@@ -58,7 +66,7 @@ while run:
         elif event.type == pygame.MOUSEBUTTONUP:
             for c in circles:
                 c.grow(4)
-            pygame.display.update
+            pygame.display.update()
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
@@ -67,6 +75,10 @@ while run:
 
             elif event.key == pygame.K_r:
                 reset()
-            pygame.display.update
+    screening.fill("Black")
+    for c in circles:
+        c.draw()
+    pygame.display.update()
+          
 pygame.quit()
 
