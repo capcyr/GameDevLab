@@ -30,7 +30,12 @@ class circular:
         self.radius = self.originalradius
 
     def clicked(self,mousepos):
-        dx = 
+        dx = mousepos[0]-self.position[0]
+        dy = mousepos[1]-self.position[1]
+        return dx**2+dy**2 <= self.radius**2
+    
+
+
     
 
 
@@ -63,6 +68,17 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mousepos = pygame.mouse.get_pos()
+            for i in circles:
+                if i.clicked(mousepos):
+                    i.colors()
+            pygame.display.update()
+
+
+
+
+
         elif event.type == pygame.MOUSEBUTTONUP:
             for c in circles:
                 c.grow(4)
