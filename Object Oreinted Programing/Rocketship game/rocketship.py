@@ -12,8 +12,8 @@ space = pygame.image.load("space.jpg")
 rocketship = pygame.image.load("rocketship.png")
 while playery<600:
     screen.blit(space,(0,0))
-    screen.blit(rocketship,(250,250))
-    
+    screen.blit(rocketship,(playerx,playery))
+    pygame.display.flip()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -35,5 +35,20 @@ while playery<600:
                 record[2]=False
             elif event.key == pygame.K_RIGHT:
                 record[3]=False
+    if record[0]:
+        if playery > 0:
+            playery-=40
+    if record[2]:
+        if playery < 600:
+            playery+=25
+    if record[3]:
+        if playerx < 600:
+            playerx+=25
+    if record[1]:
+        if playerx > 0:
+            playerx-=25
+        
+    playery+=15
+    sleep(0.25)
+    #pygame.display.update()
 
-    pygame.display.update()
