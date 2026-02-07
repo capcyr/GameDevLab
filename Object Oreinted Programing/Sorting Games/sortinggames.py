@@ -39,3 +39,8 @@ while True:
         mousepos = pygame.mouse.get_pos()
         pygame.draw.circle(screen,"red",(mousepos),20,0)
         pygame.display.update()
+    elif event.type == pygame.MOUSEBUTTONUP:
+        mousepos1 = pygame.mouse.get_pos()
+        pygame.draw.line(screen, "red", (mousepos),(mousepos1),15)
+        pygame.draw.circle(screen,"Red",(mousepos1),20,0)
+        pygame.display.update()
