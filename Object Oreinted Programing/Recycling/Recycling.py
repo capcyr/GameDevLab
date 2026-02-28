@@ -8,6 +8,15 @@ pygame.display.set_caption("Recycle this")
 screen = pygame.display.set_mode((1000,750))
 run = True 
 
+scoringfont = pygame.font.SysFont("Calibri",size = 50)
+t = time.time()
+
+
+
+
+
+
+
 
 background = pygame.image.load("leaves.jpg")
 box = pygame.image.load("box.png")
@@ -17,8 +26,8 @@ plastic = pygame.image.load("plastic.png")
 recycling = pygame.image.load("recycling.png")
 recyclables = ["coke.png","box.png","pencil.png"]
 scoring = 0
-scoringfont = pygame.font.SysFont("Calibri",size = 50)
-text = scoringfont.render("score:",str(scoring),True,"white")
+
+text = scoringfont.render("score:",str(scoring),True,"Red")
 #Recycle bin class
 class recyclebin(pygame.sprite.Sprite):
     def __init__(self):
@@ -67,41 +76,56 @@ for i in range(11):
     
 
 while run:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-    keystore = pygame.key.get_pressed()
-    if keystore[pygame.K_UP]:
-        if bin.rect.y > 0:
-            bin.rect.y-=0.6
-    if keystore[pygame.K_DOWN]:
-        if bin.rect.y < 600:
-            bin.rect.y+=0.5
-    if keystore[pygame.K_LEFT]:
-        if bin.rect.x > 0:
-            bin.rect.x-=0.6
-    if keystore[pygame.K_RIGHT]:
-        if bin.rect.x < 880:
-            bin.rect.x+=0.6
-    #Collision between items
-    hitrecycle = pygame.sprite.spritecollide(bin,recyclegroup,True)
-    nonrec = pygame.sprite.spritecollide(bin,nonrecyclegroup,True)
-    for i in hitrecycle:
-        scoring+=1
-        text = scoringfont.render("score:"+str(scoring),True,"White")
-    for i in nonrec:
-        scoring-=1
-        text = scoringfont.render("score:"+str(scoring),True,"White")
+    elasped = time.time()-t
+    if elasped > 60:
+        if scoring >5:
+            text = scoringfont.render("You Win",True,"Red") 
+        else:
+            text = scoringfont.render("You Lose",True,"Red") 
+        screen.blit(text,(450,365))
+        pygame.display.update() 
+
+    else:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+        keystore = pygame.key.get_pressed()
+        if keystore[pygame.K_UP]:
+            if bin.rect.y > 0:
+                bin.rect.y-=0.6
+        if keystore[pygame.K_DOWN]:
+            if bin.rect.y < 600:
+                bin.rect.y+=0.5
+        if keystore[pygame.K_LEFT]:
+            if bin.rect.x > 0:
+                bin.rect.x-=0.6
+        if keystore[pygame.K_RIGHT]:
+            if bin.rect.x < 880:
+                bin.rect.x+=0.6
+        #Collision between items
+        hitrecycle = pygame.sprite.spritecollide(bin,recyclegroup,True)
+        nonrec = pygame.sprite.spritecollide(bin,nonrecyclegroup,True)
+        for i in hitrecycle:
+            scoring+=1
+            text = scoringfont.render("score:"+str(scoring),True,"Red")
+        for i in nonrec:
+            scoring-=1
+            text = scoringfont.render("score:"+str(scoring),True,"Red")
 
 
 
 
-    screen.blit(background,(0,0))
-    screen.blit(text,(800,0))
-    spritegroup.draw(screen)
+        screen.blit(background,(0,0))
+        screen.blit(text,(800,0))
+        spritegroup.draw(screen)
+        timingfont = scoringfont.render("Time Left"+str(60-int(elasped)),True,"red")
+        screen.blit(timingfont,(10,0))
     pygame.display.update()
         
 pygame.quit()
+
+
+
 
 
 
