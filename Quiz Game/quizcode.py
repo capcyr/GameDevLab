@@ -1,126 +1,105 @@
-import pgzrun
-TITLE = "Quiz Game"
-WIDTH = 900
-HEIGHT = 700
-#Defining Boxes
-marqueebox = Rect(0,0,900,150)
-questionbox = Rect(0,150,750,150)
-timerbox = Rect(750,150,150,150)
-option1 = Rect(0,300,350,180)
-option2 = Rect(370,300,350,180)
-option3 = Rect(0,500,350,180)
-option4 = Rect(370,500,350,180)
-skip = Rect(750,300,150,400)
-#variables
-score_1 = 0
-timee = 30
-gameeover = False
-listing = []
-indexing = 0
-totalquestioncount = 0
-questionquestion = "question.txt"
-options = [option1,option2,option3,option4]
+from pygame.locals import*
+import pygame
+pygame.font.init()
+pygame.mixer.init()
+
+
+screen = pygame.display.set_mode((1000,750))
+run = True
+
+
+background = pygame.image.load("spacebg.jpg")
+#fontstyles
+healthfont = pygame.font.SysFont("Times New Roman",size = 50)
+winfont  = pygame.font.SysFont("Times New Roman",size = 60)
+
+#gaming variables
+
+blueplayerhealth = 5
+redplayerhealth = 5
+
+bulletspeed = 6
+
+fps = 60
+
+maxbullets = 4
+spaceshipwidth,spaceshipheight = 100,100
+#loading spaceship images
+bluespaceship = pygame.image.load("spaceship2.png")
+greyspaceship = pygame.image.load("spaceship1.png")
+
+border = pygame.Rect(500,0,10,750)
+
+#class for spaceship
+class spaceship(pygame.sprite.Sprite):
+    def __init__(self,image,x,y):
+        super().__init__()
+        self.image = pygame.transform.scale(image,(spaceshipwidth,spaceshipheight))
+        self.rect = self.image.get_rect()
+        self.rect.x = x 
+        self.rect.y = y
+    #horizontal movement
+    def moveleftright(self,velocity,player):
+        self.rect.x+= velocity
+        if player ==1:
+             if self.rect.left<=0 or self.rect.right>=border.left:
+                  self.rect.move_ip(-velocity,0)
+        if player ==2:
+             if self.rect.left <=border.right or self.rect.right >= 1000:
+                  self.rect.move_ip(-velocity,0)
+    #vertical movement 
+    def moveupdown(self,velocity):
+         self.rect.move_ip(0,velocity)
+         if self.rect.top <= 0 or self.rect.bottom >= 1000:
+              self.rect.move_ip(0, -velocity)
 
 
 
 
-def draw():
-    global timee
-    screen.draw.filled_rect(marqueebox,"Blue")
-    screen.draw.filled_rect(questionbox,"Red")
-    screen.draw.filled_rect(timerbox,"White")
-    screen.draw.filled_rect(option1,"Green")
-    screen.draw.filled_rect(option2,"Green")
-    screen.draw.filled_rect(option3,"Green")
-    screen.draw.filled_rect(option4,"Green")
-    screen.draw.filled_rect(skip,"Yellow")
-    #Textboxes
-    message = "welcome to the quiz app"
-    screen.draw.textbox(message,marqueebox,color = "black")
-    screen.draw.textbox(str(timee),timerbox,color = "black")
-    screen.draw.textbox(question[0].strip(),questionbox,color = "black")
-    screen.draw.textbox("Skip",skip, color = "black",angle = -90)
-    q = 1
-    for i in options:
-        screen.draw.textbox(question[q].strip(),i, color = "black") 
-        q +=1
-#Function for marquee box
-def moving():
-    marqueebox.x-=5
-    if marqueebox.right < 0:
-        marqueebox.left = 900
-
-def countdown():
-    global timee
-    if timee>0:
-        timee-=1
-
-def update():
-    pass
-    moving()
-#Reading the file
-def reading():
-    global totalquestioncount
-    global indexing
-    global listing 
-    openfile = open("question.txt","r")
-    for question in openfile:
-        listing.append(question)
-        totalquestioncount +=1
-    openfile.close()
-
-#Reading next question
-def adding():
-    global indexing
-    indexing +=1
-    return listing.pop(0).split(",")
-    
-def gammeover():
-    global question, timee, gameeover
-    gameeover = True
-    timee = 0
-    message = f"The quiz is over {score_1}"
-    question = [message,"-","-","-","-",5]
-
-def correctanswer():
-    global timee, question,score_1,listing
-    score_1+=1
-    if listing:
-        question = adding()
-        timee = 30
-    else:
-        gammeover()
-
-def skipping():
-    global question, timee
-    if listing and not gameeover:
-        question = adding()
-        timee = 30
-    else:
-        gammeover()
 
 
-def on_mouse_down(pos):
-    #if listing and not gameeover:
-        counter =1
-        for box in options:
-            if box.collidepoint(pos):
 
-                if counter == int(question[5]):
-                    correctanswer()
-                else:
-                    gammeover()
-            counter+=1 
-        if skip.collidepoint(pos):
-            skipping()
+#CREATING OBJECT
+player1blue = spaceship(bluespaceship,0,375)
+player2grey = spaceship(greyspaceship,900,375)
+sprites = pygame.sprite.Group()
+sprites.add(player1blue)
+sprites.add(player2grey)
 
+
+
+
+while run:
+    for event in pygame.event.get():
+         if event.type == pygame.QUIT:
+                run = False
+    KEY = pygame.key.get_pressed()
+    if KEY[K_a]:
+         player1blue.moveleftright(-2,1)
+    if KEY[K_d]:
+         player1blue.moveleftright(2,1)
+    if KEY[K_w]:
+         player1blue.moveupdown(-2)
+    if KEY[K_s]:
+         player1blue.moveupdown(2)
+
+    if KEY[K_LEFT]:
+         player2grey.moveleftright(-2,1)
+    if KEY[K_RIGHT]:
+         player2grey.moveleftright(2,1)
+    if KEY[K_UP]:
+         player2grey.moveupdown(-2)
+    if KEY[K_DOWN]:
+         player2grey.moveupdown(2)
 
     
-reading()
-question = adding()
-clock.schedule_interval(countdown,1)
-pgzrun.go()
+    screen.blit(background,(0,0))
+    sprites.draw(screen)
 
+
+
+    pygame.display.update()
+pygame.quit()
 
 
 
