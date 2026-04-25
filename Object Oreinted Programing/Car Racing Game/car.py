@@ -53,14 +53,15 @@ while True:
             pygame.quit()
     bgy1+=bgspeed
     bgy2+=bgspeed
-    if bgy1 >= 610:
-        bgy1-=700
+    if bgy1 >= 650:
+        bgy1=bgy2-650
     if bgy2 >=610:
-        bgy2-=700
+        bgy2=bgy1-650
 
     assets()
     pygame.display.update()
    
+
 
 
 
