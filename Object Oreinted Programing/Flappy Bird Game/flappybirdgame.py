@@ -146,8 +146,15 @@ while run:
 
     if gameover == True:
         buttoning.draw()
+        groundspeed = 0
+        groundscroll = 0
+        flappy.rect.y = 736
+        currenttime = 0
+        lastpipe = 0
+        pipefrequency = 10000000000
+        currenttime = 0
         
-    
+        
     
     pipe_group.update()
 
@@ -157,5 +164,7 @@ while run:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN and flying == False:
             flying = True 
+    pygame.display.update()
+pygame.quit()
     pygame.display.update()
 pygame.quit()
