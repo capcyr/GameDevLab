@@ -11,6 +11,7 @@ groundspeed = 4
 pipe_gap = 150
 pipefrequency = 1500
 score = 0
+font = pygame.font.SysFont("Bauhaus 93",60)
 lastpipe = pygame.time.get_ticks()-pipefrequency
 passpipe = False
 gameover = False
@@ -82,13 +83,27 @@ class Pipe(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
+def draw(text, font, text_col, x,y):
+    img = font.render(text,True, text_col)
+    screen.blit(img,(x,y))
 
 def resetgame():
     global score
+    global gameover, flying, ground, groundscroll, pipefrequency, lastpipe,groundspeed,currenttime
     pipe_group.empty()
     flappy.rect.x = 100
     flappy.rect.y = int(screen_height/2)
+    flappy.vel = 0
+    flappy.index = 0
+    flappy.image = flappy.images[0]
     score = 0
+    gameover = False
+    flying = False
+    groundspeed = 0
+    groundscroll = 0
+    lastpipe = pygame.time.get_ticks()-pipefrequency
+    pipefrequency = 1500
+    return score
 
 class Button():
     def __init__(self, x,y, image):
@@ -129,11 +144,19 @@ while run:
     groundscroll-=groundspeed
     if abs(groundscroll)>35:
         groundscroll = 0
-
-    
+    if len(pipe_group)>0:
+        if bird_group.sprites()[0].rect.left>pipe_group.sprites()[0].rect.left\
+        and bird_group.sprites()[0].rect.right<pipe_group.sprites()[0].rect.right\
+        and passpipe == False:
+            passpipe = True
+    if passpipe == True:
+        if bird_group.sprites()[0].rect.left>pipe_group.sprites()[0].rect.right:
+            score+=1
+            passpipe = False
+    draw(str(score),font, "white",int(screen_width/2),20)
 
     currenttime = pygame.time.get_ticks()
-    if currenttime - lastpipe > pipefrequency:
+    if not gameover and currenttime-lastpipe>pipefrequency:
         pipeheight = random.randint(-100,100)
         piping = Pipe(screen_width,int(screen_height/2)+pipeheight,-1)
         toppipe = Pipe(screen_width,int(screen_height/2)+pipeheight,1)
@@ -144,19 +167,15 @@ while run:
     if pygame.sprite.groupcollide(bird_group, pipe_group, False, False) or flappy.rect.top < 0:
         gameover = True
 
-    if gameover == True:
-        buttoning.draw()
+    if gameover:
         groundspeed = 0
-        groundscroll = 0
-        flappy.rect.y = 736
-        currenttime = 0
-        lastpipe = 0
-        pipefrequency = 10000000000
-        currenttime = 0
+        if buttoning.draw():
+            resetgame()
         
         
-    
-    pipe_group.update()
+        
+    if not gameover:  
+        pipe_group.update()
 
     
     for event in pygame.event.get():
@@ -164,7 +183,5 @@ while run:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN and flying == False:
             flying = True 
-    pygame.display.update()
-pygame.quit()
     pygame.display.update()
 pygame.quit()
